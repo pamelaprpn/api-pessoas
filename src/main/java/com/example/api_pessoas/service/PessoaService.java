@@ -4,8 +4,11 @@ import com.example.api_pessoas.dto.PessoaRequestDTO;
 import com.example.api_pessoas.exception.PessoaNotFoundException;
 import com.example.api_pessoas.model.Pessoa;
 import com.example.api_pessoas.repository.PessoaRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -23,8 +26,19 @@ public class PessoaService {
                 .orElseThrow(() -> new PessoaNotFoundException("Pessoa não encontrada"));
     }
 
-    public List<Pessoa> listarPessoas() {
-        return  pessoaRepository.findAll();
+    public List<Pessoa> listarPessoas(Integer limite) {
+        if (limite == null) {
+            return pessoaRepository.findAll();
+        }
+
+        Pageable pageable = PageRequest.of(
+                0,
+                limite,
+                Sort.by("id").ascending()
+        );
+
+        return pessoaRepository.findAll(pageable).getContent();
+
     }
 
     public Pessoa registrarPessoa(PessoaRequestDTO dto){

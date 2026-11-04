@@ -2,15 +2,22 @@ package com.example.api_pessoas.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public class PessoaRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "Documento é obrigatório")
+    @Pattern(
+            regexp = "\\d{11}",
+            message = "Documento deve conter exatamente 11 números"
+    )
     private String documento;
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
+    @NotBlank(message = "Sobrenome é obrigatório")
     private String sobrenome;
-    @Email
+    @NotBlank(message = "E-mail é obrigatório")
+    @Email(message = "E-mail inválido")
     private String email;
 
     public String getDocumento() {
