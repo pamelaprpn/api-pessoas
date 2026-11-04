@@ -37,4 +37,9 @@ public class PessoaService {
 
         return pessoaRepository.save(pessoa);
     }
+
+    public void excluirPessoa(String documento){
+        Pessoa pessoa = buscarPorDocumento(documento);
+        pessoaRepository.delete(pessoa);
+    }
 }
